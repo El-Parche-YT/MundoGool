@@ -123,7 +123,7 @@
         }
 
         .branding-title {
-            font-size: 5.5rem;
+            font-size: clamp(2.5rem, 10vw, 5.5rem);
             font-weight: 900;
             text-transform: uppercase;
             font-style: italic;
@@ -344,6 +344,16 @@
             transition: 0.5s;
         }
 
+        .play-overlay h2 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 15px;
+            font-weight: 800;
+            color: white;
+        }
+
         .play-trigger {
             background: var(--primary);
             color: #000;
@@ -408,10 +418,11 @@
 
         @media (max-width: 768px) {
             .container { padding: 1rem; }
-            .banner-container { height: 140px; }
-            .branding-title { font-size: 3rem; }
+            .banner-container { height: 120px; }
+            .branding-title { font-size: 2.8rem; }
             .branding-section { margin-top: -35px; }
-            .hero h1 { font-size: 1.8rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .hero p { font-size: 0.9rem; }
             
             .match-card {
                 flex-wrap: wrap;
@@ -447,6 +458,8 @@
             }
             
             .team-item h2 { font-size: 1.2rem; }
+
+            .play-overlay h2 { font-size: 1.1rem; letter-spacing: 1px; }
 
             .whatsapp-widget {
                 bottom: 25px;
@@ -575,9 +588,9 @@
                 <div class="player-wrapper">
                     <div id="play-overlay" class="play-overlay" onclick="startPlayback()">
                         <div class="play-trigger"><i class="fas fa-play"></i></div>
-                        <h2 style="letter-spacing: 2px;">REPRODUCIR TRANSMISIÓN</h2>
+                        <h2>REPRODUCIR TRANSMISIÓN</h2>
                     </div>
-                    <iframe id="main-player" src="" allowfullscreen="true" scrolling="no" frameborder="0"></iframe>
+                    <iframe id="main-player" src="" allow="autoplay; fullscreen" allowfullscreen="true" scrolling="no" frameborder="0"></iframe>
                 </div>
                 <div style="padding: 2rem;">
                     <h1 id="playing-title" style="color: var(--accent);">Transmisión en Vivo</h1>
@@ -603,7 +616,7 @@
         function watchMatch(t1, t2, url) {
             window.open('https://www.effectivecpmnetwork.com/udwqdtkwf?key=2439b5fa83ecf2fd05ad50db1ef80d65', '_blank');
             
-            currentUrl = url + (url.includes('?') ? '&' : '?') + 'autoplay=1&muted=0';
+            currentUrl = url + (url.includes('?') ? '&' : '?') + 'autoplay=1';
 
             document.getElementById('view-calendar').style.display = 'none';
             document.getElementById('view-player').style.display = 'block';
