@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundial 2026 | Transmisiones en Vivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #00ff88; /* Verde Neón Fútbol */
+            --accent: #adff2f;  
+            --bg-body: #040d08;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-dim: #a0aec0;
+            --soccer-pitch: #062112;
+            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Efecto de Luces de Estadio */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(173, 255, 47, 0.05) 0%, transparent 40%),
+                linear-gradient(to bottom, var(--soccer-pitch) 0%, #020406 100%);
+            z-index: -1;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: stadiumGlow 10s infinite alternate ease-in-out;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes stadiumGlow {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Interfaz 1: Calendario */
+        #view-calendar {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .banner-container {
+            width: 100%;
+            height: 250px;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .banner-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to top, var(--bg-body), transparent);
+        }
+
+        .banner-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .branding-section {
+            text-align: center;
+            margin-top: -60px;
+            position: relative;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .branding-title {
+            font-size: 5.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-style: italic;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.4));
+            animation: tracking-in-expand 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            margin-top: 1.5rem;
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+        .hero p { color: var(--text-dim); font-size: 1.1rem; }
+
+        .match-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 1rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .match-card {
+            flex-direction: row;
+            align-items: center;
+            padding: 15px 25px;
+            background: rgba(15, 23, 42, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+            cursor: pointer;
+            display: flex;
+            gap: 15px;
+        }
+
+        .match-card:hover {
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .live-tag {
+            color: #00ff88;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse-text 2s infinite;
+            min-width: 100px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #ff4b4b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff4b4b;
+        }
+
+        .match-teams {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+
+        .team-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .team-item.home { justify-content: flex-end; }
+        .team-item.away { justify-content: flex-start; }
+
+        .team-item h2 { font-size: 1.4rem; margin: 0; }
+
+        .match-time {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            min-width: 70px;
+        }
+
+        .vs-box {
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.05);
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+
+        .tournament-name {
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            min-width: 150px;
+            text-align: right;
+            text-transform: uppercase;
+        }
+
+        .date-header {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 10px 25px;
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-play-card {
+            background: var(--primary);
+            color: #000;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .match-card:hover .btn-play-card {
+            transform: rotate(360deg) scale(1.2);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Interfaz 2: Transmisión */
+        #view-player {
+            display: none;
+            animation: slideUp 0.6s ease;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 255, 136, 0.1));
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 255, 136, 0.5);
+            color: var(--primary);
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+        .back-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--primary); 
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        .back-btn:hover i {
+            transform: translateX(-5px);
+        }
+
+        .video-section {
+            background: #000;
+            border-radius: 24px;
+            overflow: hidden; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .player-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            background: #000;
+        }
+
+        .player-wrapper iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+        }
+
+        /* Nuevo Estilo Botón Reproducción */
+        .play-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(4, 13, 8, 0.9) 0%, rgba(0, 0, 0, 1) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        .play-trigger {
+            background: var(--primary);
+            color: #000;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            box-shadow: 0 0 30px var(--primary);
+            animation: pulse-green 2s infinite;
+        }
+
+        /* WhatsApp Floating Widget */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            font-weight: 800;
+            box-shadow: 0 15px 35px rgba(18, 140, 126, 0.4);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse 2s infinite;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .whatsapp-widget:hover { 
+            transform: translateY(-8px) scale(1.03); 
+            box-shadow: 0 20px 40px rgba(18, 140, 126, 0.6);
+            filter: brightness(1.1);
+        }
+
+        .whatsapp-widget i { font-size: 1.5rem; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+        @keyframes tracking-in-expand {
+            0% { letter-spacing: -0.5em; opacity: 0; }
+            40% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(0, 255, 136, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .banner-container { height: 140px; }
+            .branding-title { font-size: 3rem; }
+            .branding-section { margin-top: -35px; }
+            .hero h1 { font-size: 1.8rem; }
+            
+            .match-card {
+                flex-wrap: wrap;
+                padding: 12px;
+                gap: 10px;
+                justify-content: space-between;
+            }
+
+            .match-time {
+                min-width: auto;
+                font-size: 0.75rem;
+                order: 1;
+            }
+
+            .live-tag {
+                min-width: auto;
+                font-size: 0.7rem;
+                order: 2;
+                flex: 1;
+                justify-content: center;
+            }
+
+            .tournament-name {
+                display: none; /* Ocultamos el torneo en móviles para limpiar la vista */
+            }
+
+            .match-teams {
+                width: 100%;
+                order: 3;
+                padding-top: 8px;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+                font-size: 0.95rem;
+            }
+            
+            .team-item h2 { font-size: 1.2rem; }
+
+            .whatsapp-widget {
+                bottom: 25px;
+                right: 15px;
+                padding: 10px 18px;
+                border-radius: 15px;
+                gap: 8px;
+                font-size: 0.75rem;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            }
+            .whatsapp-widget span { display: block; }
+            .whatsapp-widget i { font-size: 1.3rem; }
+            .whatsapp-widget .hide-mobile { display: none; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-dim);
+        }
+
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="banner-container">
+        <img src="Banner1.jpeg" alt="Banner Principal">
+    </div>
+
+    <div class="branding-section">
+        <h1 class="branding-title">MUNDO GOOL</h1>
+    </div>
+
+    <div class="container">
+        <!-- INTERFAZ 1: CALENDARIO -->
+        <div id="view-calendar">
+            <section class="hero">
+                <h1>Calendario de Partidos</h1>
+                <p>Selecciona un encuentro para acceder a la señal en vivo en alta definición.</p>
+            </section>
+
+            <div class="match-grid">
+                <div class="date-header">Miércoles 3 de Junio</div>
+                <!-- Partido El Salvador -->
+                <div class="match-card" onclick="watchMatch('Corea del Sur', 'El Salvador', 'https://playvi.click/canal1.php')">
+                    <div class="match-time">07:00 PM</div>
+                    <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
+                    <div class="match-teams">
+                        <div class="team-item home"><span>Corea del Sur</span> <h2>🇰🇷</h2></div>
+                        <div class="vs-box">VS</div>
+                        <div class="team-item away"><h2>🇸🇻</h2> <span>El Salvador</span></div>
+                    </div>
+                    <div class="tournament-name">Amistoso</div>
+                </div>
+
+                <div class="date-header">Jueves 4 de Junio</div>
+                
+                <!-- Suecia vs Grecia -->
+                <div class="match-card" onclick="watchMatch('Suecia', 'Grecia', 'https://playvi.click/canal5.php')">
+                    <div class="match-time">11:00 AM</div>
+                    <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
+                    <div class="match-teams">
+                        <div class="team-item home"><span>Suecia</span> <h2>🇸🇪</h2></div>
+                        <div class="vs-box">VS</div>
+                        <div class="team-item away"><h2>🇬🇷</h2> <span>Grecia</span></div>
+                    </div>
+                    <div class="tournament-name">Amistoso</div>
+                </div>
+
+                <!-- España vs Irak -->
+                <div class="match-card" onclick="watchMatch('España', 'Irak', 'https://playvi.click/canal6.php')">
+                    <div class="match-time">01:00 PM</div>
+                    <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
+                    <div class="match-teams">
+                        <div class="team-item home"><span>España</span> <h2>🇪🇸</h2></div>
+                        <div class="vs-box">VS</div>
+                        <div class="team-item away"><h2>🇮🇶</h2> <span>Irak</span></div>
+                    </div>
+                    <div class="tournament-name">Amistoso</div>
+                </div>
+
+                <!-- Francia vs Costa de Marfil -->
+                <div class="match-card" onclick="watchMatch('Francia', 'Costa de Marfil', 'https://playvi.click/canal7.php')">
+                    <div class="match-time">01:10 PM</div>
+                    <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
+                    <div class="match-teams">
+                        <div class="team-item home"><span>Francia</span> <h2>🇫🇷</h2></div>
+                        <div class="vs-box">VS</div>
+                        <div class="team-item away"><h2>🇨🇮</h2> <span>C. Marfil</span></div>
+                    </div>
+                    <div class="tournament-name">Amistoso</div>
+                </div>
+
+                <!-- Chequia vs Guatemala -->
+                <div class="match-card" onclick="watchMatch('Chequia', 'Guatemala', 'https://playvi.click/canal8.php')">
+                    <div class="match-time">06:00 PM</div>
+                    <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
+                    <div class="match-teams">
+                        <div class="team-item home"><span>Chequia</span> <h2>🇨🇿</h2></div>
+                        <div class="vs-box">VS</div>
+                        <div class="team-item away"><h2>🇬🇹</h2> <span>Guatemala</span></div>
+                    </div>
+                    <div class="tournament-name">Amistoso</div>
+                </div>
+
+                <!-- México vs Serbia -->
+                <div class="match-card" onclick="watchMatch('México', 'Serbia', 'https://playvi.click/canal9.php')">
+                    <div class="match-time">08:00 PM</div>
+                    <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
+                    <div class="match-teams">
+                        <div class="team-item home"><span>México</span> <h2>🇲🇽</h2></div>
+                        <div class="vs-box">VS</div>
+                        <div class="team-item away"><h2>🇷🇸</h2> <span>Serbia</span></div>
+                    </div>
+                    <div class="tournament-name">Amistoso</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERFAZ 2: PLAYER -->
+        <div id="view-player">
+            <button class="back-btn" onclick="showCalendar()"><i class="fas fa-arrow-left"></i> Volver al calendario</button>
+            <div class="video-section">
+                <div class="player-wrapper">
+                    <div id="play-overlay" class="play-overlay" onclick="startPlayback()">
+                        <div class="play-trigger"><i class="fas fa-play"></i></div>
+                        <h2 style="letter-spacing: 2px;">REPRODUCIR TRANSMISIÓN</h2>
+                    </div>
+                    <iframe id="main-player" src="" allowfullscreen="true" scrolling="no" frameborder="0"></iframe>
+                </div>
+                <div style="padding: 2rem;">
+                    <h1 id="playing-title" style="color: var(--accent);">Transmisión en Vivo</h1>
+                    <p style="color: var(--text-dim);">Estás viendo la cobertura oficial. Si el video presenta interrupciones, refresca la página. <br><span style="color: var(--primary); font-weight: bold; margin-top: 10px; display: inline-block;">🔊 Si no escuchas el audio, actívalo haciendo clic en el icono de volumen dentro del reproductor.</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Link -->
+    <a href="https://chat.whatsapp.com/TU_GRUPO_DE_WHATSAPP" target="_blank" class="whatsapp-widget">
+        <i class="fab fa-whatsapp"></i>
+        <span><span class="hide-mobile">Únete al </span>Grupo WhatsApp</span>
+    </a>
+
+    <footer>
+        <p>&copy; 2024 Mundial Live Streaming. Calidad 4K Experience.</p>
+    </footer>
+
+    <script>
+        let currentUrl = "";
+
+        function watchMatch(t1, t2, url) {
+            window.open('https://www.effectivecpmnetwork.com/udwqdtkwf?key=2439b5fa83ecf2fd05ad50db1ef80d65', '_blank');
+            
+            currentUrl = url + (url.includes('?') ? '&' : '?') + 'autoplay=1&muted=0';
+
+            document.getElementById('view-calendar').style.display = 'none';
+            document.getElementById('view-player').style.display = 'block';
+            document.getElementById('play-overlay').style.display = 'flex';
+            document.getElementById('main-player').src = "";
+            document.getElementById('playing-title').innerText = t1 + " VS " + t2 + " (En Vivo)";
+            window.scrollTo(0,0);
+        }
+
+        function startPlayback() {
+            document.getElementById('play-overlay').style.display = 'none';
+            document.getElementById('main-player').src = currentUrl;
+        }
+
+        function showCalendar() {
+            document.getElementById('view-player').style.display = 'none';
+            document.getElementById('view-calendar').style.display = 'block';
+            document.getElementById('main-player').src = "";
+        }
+
+        // Lógica de Animación de Partículas (Efecto Estadio)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initParticles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    opacity: Math.random() * 0.4
+                });
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+                
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', initParticles);
+        initParticles();
+        animateParticles();
+    </script>
+    <script src="https://pl28488782.effectivecpmnetwork.com/78/f7/a3/78f7a36fcf0878c51c7bcefbeb1fa58e.js"></script>
+</body>
+</html>
