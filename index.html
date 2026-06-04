@@ -149,21 +149,28 @@
             display: flex;
             flex-direction: column;
             margin-top: 1rem;
+            margin-top: 2rem;
+            width: 100%;
             max-width: 1000px;
             margin-left: auto;
             margin-right: auto;
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 4px;
+            border-radius: 12px;
             background: rgba(0, 0, 0, 0.3);
+            overflow: hidden;
         }
 
         .match-card {
             display: grid;
             grid-template-columns: 100px 100px 1fr 120px;
+            grid-template-columns: 120px 100px 1fr 140px;
             align-items: center;
             padding: 12px 20px;
+            padding: 15px 25px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.2s;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
@@ -227,6 +234,7 @@
             gap: 12px;
             font-weight: 700;
             flex: 1;
+            min-width: 0;
         }
 
         .team-item.home { justify-content: flex-end; }
@@ -234,6 +242,7 @@
 
         .team-item h2 { 
             font-size: 1.5rem; 
+            font-size: 1.8rem; 
             margin: 0; 
             filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
         }
@@ -245,9 +254,11 @@
 
         .match-time {
             font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #fff;
             font-weight: 600;
             text-align: center;
+            padding-right: 15px;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -519,16 +530,29 @@
             .hero h1 { font-size: 1.3rem; }
             .hero p { font-size: 0.85rem; }
             
+            .match-grid {
+                margin-top: 1rem;
+                border-radius: 8px;
+            }
+
             .match-card {
                 grid-template-columns: 65px 1fr 90px;
                 padding: 12px 10px;
                 gap: 8px;
                 align-items: center;
+                grid-template-columns: 85px 1fr 85px;
+                grid-template-areas: 
+                    "time teams action"
+                    "tag teams action";
+                padding: 12px 8px;
+                gap: 2px 10px;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             }
 
             .match-time {
                 font-size: 0.65rem;
+                grid-area: time;
+                font-size: 0.6rem;
                 border: none;
                 line-height: 1.2;
                 font-weight: 700;
@@ -536,17 +560,31 @@
                 text-align: left;
                 border-right: 1px solid rgba(255, 255, 255, 0.1);
                 padding-right: 5px;
+                text-align: center;
+                padding: 0;
+                align-self: end;
+            }
+
+            .live-tag {
+                grid-area: tag;
+                font-size: 0.6rem;
+                justify-content: center;
+                align-self: start;
             }
 
             .match-teams {
+                grid-area: teams;
                 gap: 5px;
                 padding: 0;
             }
 
             .team-item { gap: 6px; }
             .team-item h2 { font-size: 1.1rem; }
+            .team-item { gap: 4px; }
+            .team-item h2 { font-size: 1.3rem; }
             .team-item span { 
                 font-size: 0.75rem; 
+                font-size: 0.7rem; 
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -556,6 +594,7 @@
             .vs-box { font-size: 0.6rem; padding: 1px 4px; font-weight: 900; }
 
             .watch-action {
+                grid-area: action;
                 padding: 8px 0;
                 font-size: 0.65rem;
                 width: 100%;
