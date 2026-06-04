@@ -263,6 +263,21 @@
             order: 4;
         }
 
+        .watch-action {
+            background: var(--primary);
+            color: #000;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
         .date-header {
             background: rgba(255, 255, 255, 0.04);
             padding: 10px 20px;
@@ -308,17 +323,26 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--text-dim);
+            color: #fff;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.9rem;
             transition: all 0.3s;
             cursor: pointer;
-            background: none;
-            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 22px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
-        .back-link:hover { color: var(--primary); transform: translateX(-3px); }
+        .back-link:hover { 
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            transform: translateX(-5px); 
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        }
 
         .live-indicator {
             display: flex;
@@ -501,12 +525,6 @@
                 font-size: 0.75rem;
                 min-width: auto;
             }
-            
-            .watch-action {
-                font-size: 0.7rem;
-                padding: 5px 12px;
-                margin-left: auto;
-            }
 
             .tournament-name {
                 display: none; /* Ocultamos el torneo en móviles para limpiar la vista */
@@ -598,8 +616,8 @@
 
             <div class="match-grid">
                 <div class="date-header">Miércoles 3 de Junio</div>
-                <!-- Partido El Salvador -->
-                <div class="match-card" onclick="watchMatch('Corea del Sur', 'El Salvador', 'https://playvi.click/canal15.php', 'https://playvi.click/canal14.php')">
+                <!-- Partido El Salvador - ID: 1 -->
+                <div class="match-card" data-id="1" data-start="2026-06-03T19:00:00" onclick="watchMatch('Corea del Sur', 'El Salvador', 'https://playvi.click/canal15.php', 'https://playvi.click/canal14.php', '1')">
                     <div class="match-time">07:00 PM LATAM</div>
                     <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
                     <div class="match-teams">
@@ -614,7 +632,7 @@
                 <div class="date-header">Jueves 4 de Junio</div>
                 
                 <!-- Suecia vs Grecia -->
-                <div class="match-card" onclick="watchMatch('Suecia', 'Grecia', 'https://playvi.click/canal5.php')">
+                <div class="match-card" data-id="2" data-start="2026-06-04T11:00:00" onclick="watchMatch('Suecia', 'Grecia', 'https://playvi.click/canal5.php', '', '2')">
                     <div class="match-time">11:00 AM LATAM</div>
                     <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
                     <div class="match-teams">
@@ -627,7 +645,7 @@
                 </div>
 
                 <!-- España vs Irak -->
-                <div class="match-card" onclick="watchMatch('España', 'Irak', 'https://playvi.click/canal6.php')">
+                <div class="match-card" data-id="3" data-start="2026-06-04T13:00:00" onclick="watchMatch('España', 'Irak', 'https://playvi.click/canal6.php', '', '3')">
                     <div class="match-time">01:00 PM LATAM</div>
                     <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
                     <div class="match-teams">
@@ -640,7 +658,7 @@
                 </div>
 
                 <!-- Francia vs Costa de Marfil -->
-                <div class="match-card" onclick="watchMatch('Francia', 'Costa de Marfil', 'https://playvi.click/canal7.php')">
+                <div class="match-card" data-id="4" data-start="2026-06-04T13:10:00" onclick="watchMatch('Francia', 'Costa de Marfil', 'https://playvi.click/canal7.php', '', '4')">
                     <div class="match-time">01:10 PM LATAM</div>
                     <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
                     <div class="match-teams">
@@ -653,7 +671,7 @@
                 </div>
 
                 <!-- Chequia vs Guatemala -->
-                <div class="match-card" onclick="watchMatch('Chequia', 'Guatemala', 'https://playvi.click/canal8.php')">
+                <div class="match-card" data-id="5" data-start="2026-06-04T18:00:00" onclick="watchMatch('Chequia', 'Guatemala', 'https://playvi.click/canal8.php', '', '5')">
                     <div class="match-time">06:00 PM LATAM</div>
                     <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
                     <div class="match-teams">
@@ -666,7 +684,7 @@
                 </div>
 
                 <!-- México vs Serbia -->
-                <div class="match-card" onclick="watchMatch('México', 'Serbia', 'https://playvi.click/canal9.php')">
+                <div class="match-card" data-id="6" data-start="2026-06-04T20:00:00" onclick="watchMatch('México', 'Serbia', 'https://playvi.click/canal9.php', '', '6')">
                     <div class="match-time">08:00 PM LATAM</div>
                     <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
                     <div class="match-teams">
@@ -715,6 +733,9 @@
                         <button class="btn-stream btn-refresh" onclick="refreshStream()">
                             <i class="fas fa-sync-alt"></i> Recargar Señal
                         </button>
+                        <button class="btn-stream" style="background: var(--primary); color: #000;" onclick="shareCurrentMatch()">
+                            <i class="fas fa-share-alt"></i> Compartir Partido
+                        </button>
                         <a href="https://whatsapp.com/channel/0029VbBd5qbIiRovkgdMWf0L" target="_blank" class="btn-stream btn-report">
                             <i class="fab fa-whatsapp"></i> Reportar Error
                         </a>
@@ -731,18 +752,22 @@
     </a>
 
     <footer>
-        <p>&copy; 2024 Mundial Live Streaming. Calidad 4K Experience.</p>
+        <p>&copy; 2026 Mundial Live Streaming.</p>
     </footer>
 
     <script>
         let currentUrl = "";
         let alternativeUrl = "";
+        let currentMatchData = null;
 
-        function watchMatch(t1, t2, url1, url2 = "") {
-            window.open('https://www.effectivecpmnetwork.com/udwqdtkwf?key=2439b5fa83ecf2fd05ad50db1ef80d65', '_blank');
-            
+        function watchMatch(t1, t2, url1, url2 = "", matchId = "") {
+            if (!window.location.search.includes('match=')) {
+                window.open('https://www.effectivecpmnetwork.com/udwqdtkwf?key=2439b5fa83ecf2fd05ad50db1ef80d65', '_blank');
+            }
+
             currentUrl = url1;
             alternativeUrl = url2;
+            currentMatchData = { t1, t2, url1, url2, matchId };
 
             document.getElementById('view-calendar').style.display = 'none';
             document.getElementById('view-player').style.display = 'block';
@@ -772,6 +797,7 @@
             document.getElementById('view-player').style.display = 'none';
             document.getElementById('view-calendar').style.display = 'block';
             document.getElementById('main-player').src = "";
+            window.history.pushState({}, '', window.location.pathname);
         }
 
         function switchServer(url, activeBtn, inactiveBtn) {
@@ -792,6 +818,54 @@
                 player.src = activeSrc;
             }, 50);
         }
+
+        function shareCurrentMatch() {
+            if (!currentMatchData) return;
+            const shareUrl = window.location.origin + window.location.pathname + "?match=" + currentMatchData.matchId;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Ver ' + currentMatchData.t1 + ' vs ' + currentMatchData.t2,
+                    text: '¡Mira este partido en vivo por Mundo Gool!',
+                    url: shareUrl
+                });
+            } else {
+                alert("Copiado al portapapeles: " + shareUrl);
+                navigator.clipboard.writeText(shareUrl);
+            }
+        }
+
+        function updateMatchStatuses() {
+            const now = new Date();
+            document.querySelectorAll('.match-card').forEach(card => {
+                const startTime = new Date(card.dataset.start);
+                const liveTag = card.querySelector('.live-tag');
+                
+                if (now >= startTime) {
+                    liveTag.innerHTML = '<div class="dot"></div> EN VIVO';
+                    liveTag.style.color = '#ff4b4b';
+                } else {
+                    liveTag.innerHTML = '<i class="far fa-calendar-alt"></i> ESPERA';
+                    liveTag.style.color = 'var(--text-dim)';
+                }
+            });
+        }
+
+        // Cargar partido desde URL si existe
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const matchId = params.get('match');
+            if (matchId) {
+                const matchCard = document.querySelector(`.match-card[data-id="${matchId}"]`);
+                if (matchCard) {
+                    matchCard.click();
+                }
+            }
+            
+            updateMatchStatuses();
+            // Actualizar cada minuto
+            setInterval(updateMatchStatuses, 60000);
+        });
 
         // Lógica de Animación de Partículas (Efecto Estadio)
         const canvas = document.getElementById('bg-canvas');
