@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mundial 2026 | Transmisiones en Vivo</title>
+    <meta name="description" content="Disfruta de todos los partidos del Mundial 2026 en vivo y en alta definición. Calendario actualizado y múltiples señales de transmisión.">
+    <meta name="keywords" content="Mundial 2026, Fútbol en vivo, Transmisiones deportivas, Copa del Mundo, Partidos online">
+    <meta property="og:title" content="Mundial 2026 | Transmisiones en Vivo">
+    <meta property="og:description" content="No te pierdas ni un segundo de la Copa del Mundo 2026. Señales en HD gratuitas.">
+    <meta property="og:image" content="Banner1.jpeg">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="./index.html">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://pl28488770.effectivecpmnetwork.com/5b/16/f5/5b16f592723d84c5393f83423791f33d.js"></script>
@@ -668,7 +676,7 @@
                 <div class="date-header">Sábado 6 de Junio 2026</div>
                 
                 <!-- Portugal vs Chile -->
-                <div class="match-card" data-id="7" data-start="2026-06-06T11:45:00" onclick="watchMatch('Portugal', 'Chile', 'https://playvi.click/canal1.php', '', '7')">
+                <div class="match-card" data-id="7" data-start="2026-06-06T11:45:00" onclick="watchMatch('Portugal', 'Chile', 'https://playvi.click/canal1.php', 'https://playvi.click/canal2.php', '7')">
                     <div class="match-time">11:45 AM LATAM</div>
                     <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
                     <div class="match-teams">
@@ -700,7 +708,7 @@
                     <div class="match-teams">
                         <div class="team-item home"><span>Panamá</span> <h2>🇵🇦</h2></div>
                         <div class="vs-box">VS</div>
-                        <div class="team-item away"><h2>🇦</h2> <span>Bosnia</span></div>
+                        <div class="team-item away"><h2>🇧🇦</h2> <span>Bosnia</span></div>
                     </div>
                     <div class="tournament-name">Amistoso</div>
                     <div class="watch-action">Ver ahora</div>
@@ -726,7 +734,7 @@
                     <div class="match-teams">
                         <div class="team-item home"><span>Catar</span> <h2>🇶🇦</h2></div>
                         <div class="vs-box">VS</div>
-                        <div class="team-item away"><h2>🇻</h2> <span>El Salvador</span></div>
+                        <div class="team-item away"><h2>🇸🇻</h2> <span>El Salvador</span></div>
                     </div>
                     <div class="tournament-name">Amistoso</div>
                     <div class="watch-action">Ver ahora</div>
@@ -783,11 +791,12 @@
                     <div class="live-indicator">
                         <div class="pulse-dot"></div>
                         <span>En Directo</span>
+                        <span id="viewer-count" style="margin-left: 8px; padding-left: 8px; border-left: 1px solid rgba(255,255,255,0.2); color: var(--text-dim); font-size: 0.7rem; display: flex; align-items: center; gap: 5px;"></span>
                     </div>
                 </div>
 
                 <div class="video-container">
-                    <iframe id="main-player" src="" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen="true" scrolling="no" frameborder="0"></iframe>
+                    <iframe id="main-player" src="" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen="true" style="border:none;"></iframe>
                 </div>
 
                 <div class="player-details">
@@ -808,10 +817,7 @@
                         <button class="btn-stream btn-refresh" onclick="refreshStream()">
                             <i class="fas fa-sync-alt"></i> Recargar Señal
                         </button>
-                        <button class="btn-stream" style="background: var(--primary); color: #000;" onclick="shareCurrentMatch()">
-                            <i class="fas fa-share-alt"></i> Compartir Partido
-                        </button>
-                        <a href="https://whatsapp.com/channel/0029VbBd5qbIiRovkgdMWf0L" target="_blank" class="btn-stream btn-report">
+                        <a href="https://whatsapp.com/channel/0029VbBd5qbIiRovkgdMWf0L" target="_blank" rel="noopener" class="btn-stream btn-report">
                             <i class="fab fa-whatsapp"></i> Reportar Error
                         </a>
                     </div>
@@ -821,7 +827,7 @@
     </div>
 
     <!-- WhatsApp Link -->
-    <a href="https://whatsapp.com/channel/0029VbBd5qbIiRovkgdMWf0L" target="_blank" class="whatsapp-widget">
+    <a href="https://whatsapp.com/channel/0029VbBd5qbIiRovkgdMWf0L" target="_blank" rel="noopener" class="whatsapp-widget">
         <i class="fab fa-whatsapp"></i>
         <span><span class="hide-mobile">Únete al </span>Grupo WhatsApp</span>
     </a>
@@ -865,6 +871,11 @@
                 selector.style.display = 'none';
             }
 
+            if (matchId) {
+                const newUrl = window.location.pathname + '?match=' + matchId;
+                window.history.pushState({matchId: matchId}, '', newUrl);
+            }
+
             window.scrollTo(0,0);
         }
 
@@ -892,22 +903,6 @@
             setTimeout(() => {
                 player.src = activeSrc;
             }, 50);
-        }
-
-        function shareCurrentMatch() {
-            if (!currentMatchData) return;
-            const shareUrl = window.location.origin + window.location.pathname + "?match=" + currentMatchData.matchId;
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Ver ' + currentMatchData.t1 + ' vs ' + currentMatchData.t2,
-                    text: '¡Mira este partido en vivo por Mundo Gool!',
-                    url: shareUrl
-                });
-            } else {
-                alert("Copiado al portapapeles: " + shareUrl);
-                navigator.clipboard.writeText(shareUrl);
-            }
         }
 
         function updateMatchStatuses() {
@@ -984,6 +979,24 @@
         window.addEventListener('resize', initParticles);
         initParticles();
         animateParticles();
+
+        // Contador de Espectadores Ficticio
+        function initViewerCounter() {
+            const viewerElem = document.getElementById('viewer-count');
+            let count = Math.floor(Math.random() * (50000 - 30000) + 30000); // Empezamos con un número entre 30k y 50k
+
+            const updateViewers = () => {
+                // Fluctúa el número entre -150 y +150
+                const fluctuation = Math.floor(Math.random() * 301) - 150;
+                count += fluctuation;
+                if (count < 1000) count = 1500; // Evitar que baje demasiado
+                viewerElem.innerHTML = `<i class="fas fa-users"></i> ${count.toLocaleString()}`;
+            };
+
+            updateViewers();
+            setInterval(updateViewers, 4000); // Actualiza cada 4 segundos
+        }
+        initViewerCounter();
     </script>
 </body>
 </html>
