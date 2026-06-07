@@ -618,6 +618,49 @@
             .whatsapp-widget span { display: block; }
             .whatsapp-widget i { font-size: 1.3rem; }
             .whatsapp-widget .hide-mobile { display: none; }
+
+            /* Ajustes específicos para la vista del reproductor en pantallas pequeñas */
+            #view-player .player-container {
+                border-radius: 0; /* Elimina bordes redondeados para ocupar todo el ancho */
+                box-shadow: none; /* Elimina la sombra */
+                margin: 0; /* Elimina el margen */
+            }
+
+            #view-player .player-top-bar {
+                padding: 0.8rem 1rem; /* Reduce el padding superior */
+            }
+
+            #view-player .player-details {
+                padding: 1rem; /* Reduce el padding de los detalles del reproductor */
+                gap: 15px; /* Reduce el espacio entre elementos */
+            }
+
+            #view-player .info-side h1 {
+                font-size: 1.2rem; /* Reduce el tamaño del título del partido */
+                margin-bottom: 0.8rem;
+            }
+
+            #view-player .info-side p {
+                display: none; /* Oculta el párrafo de descripción para ahorrar espacio */
+            }
+
+            #view-player .status-pill {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+
+            #view-player .server-selector {
+                flex-wrap: wrap; /* Permite que los botones de servidor se envuelvan */
+                gap: 8px;
+            }
+
+            #view-player .btn-server {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+
+            /* Los botones de acción ya se ajustan bien con flex-direction: column en mobile */
+            /* Si se desea que ocupen todo el ancho, se puede añadir: width: 100%; */
         }
         
         /* Selector de Servidores */
@@ -674,19 +717,6 @@
             <div class="match-grid">
                 <div class="date-header">Sábado 6 de Junio 2026</div>
                 
-                <!-- Brasil vs Egipto -->
-                <div class="match-card" data-id="13" data-start="2026-06-06T16:00:00" onclick="watchMatch('Brasil', 'Egipto', 'https://playvi.click/deportesplus.php', 'https://playvi.click/canal6.php', '13')">
-                    <div class="match-time">04:00 PM LATAM</div>
-                    <div class="live-tag" style="color: var(--text-dim);"><i class="far fa-calendar-alt"></i> ESPERA</div>
-                    <div class="match-teams">
-                        <div class="team-item home"><span>Brasil</span> <h2>🇧🇷</h2></div>
-                        <div class="vs-box">VS</div>
-                        <div class="team-item away"><h2>🇪🇬</h2> <span>Egipto</span></div>
-                    </div>
-                    <div class="tournament-name">Amistoso</div>
-                    <div class="watch-action">Ver ahora</div>
-                </div>
-
                 <!-- Argentina vs Honduras -->
                 <div class="match-card" data-id="14" data-start="2026-06-06T18:00:00" onclick="watchMatch('Argentina', 'Honduras', 'https://playvi.click/deportesplus.php', '', '14')">
                     <div class="match-time">06:00 PM LATAM</div>
